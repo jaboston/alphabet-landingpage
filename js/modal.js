@@ -8,15 +8,15 @@ function modal(shouldShowModal,
   imageUrl, extraUrl) {
 
   var $modalContainer = $('#modal-container');
-  var $baseModal = $(
-    ''
+  var $modal = $(
+    '<div class="modal created rubberBand animated">Content is here!</div>'
   );
   // <div class="modal created rubberBand animated" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"></div></div></div></div>
 
   console.log("start loading the page");
   // testing modal container
 
-  function showModal() {
+  function showModal(title, text, secondaryText, imageUrl, extraUrl) {
     // Clear all existing modal content
     $('#modal-container').empty();
     $('#modal-container').innerHTML = '';
@@ -39,7 +39,6 @@ function modal(shouldShowModal,
     var image = $("<img class='pokemon-image' src=" + imageUrl + "></img>");
     image.src = imageUrl;
 
-<<<<<<< HEAD
     $('#modal-container').load('modal.html');
 
     $('.modal-content').append(closeButtonElement);
@@ -48,90 +47,97 @@ function modal(shouldShowModal,
     $('.modal-content').append(content2Element);
     $('.modal-content').append(image)
 
-    if (!($baseModal.parentElement == $('#modal-container'))) {
-=======
-    $baseModal.append(closeButtonElement);
-    $baseModal.append(titleElement);
-    $baseModal.append(contentElement);
-    $baseModal.append(content2Element);
-    $baseModal.append(image)
-    if ($baseModal.parentElement !== $('#modal-container')) {
-<<<<<<< HEAD
->>>>>>> parent of 1330525... some changes
-=======
->>>>>>> parent of 1330525... some changes
-      $('#modal-container').append($baseModal);
-    }
-    $('#modal-container').addClass('is-visible');
-  }
+    if (!($baseModal.parentElement == $('#modal-container'))) { === === =
+      $baseModal.append(closeButtonElement);
+      $baseModal.append(titleElement);
+      $baseModal.append(contentElement);
+      $baseModal.append(content2Element);
+      $baseModal.append(image)
+      if ($baseModal.parentElement !== $('#modal-container')) { << << << < HEAD
+          >>> >>> > parent of 1330525...some changes === === = >>> >>> > parent of 1330525.
+          ..some changes
+        $('#modal-container').append($baseModal); === === =
+        $modal.append(closeButtonElement);
+        $modal.append(titleElement);
+        $modal.append(contentElement);
+        $modal.append(content2Element);
+        $modal.append(image)
+        if ($modal.parentElement !== $('#modal-container')) {
+          $('#modal-container').append(modal); >>> >>> > parent of 9368207...trying to figure out why i am getting erros
+        }
+        $('#modal-container').addClass('is-visible');
+      }
 
-  // a subtype of showModal.
-  function showDialog() {
-    showModal();
-    // We want to add a confirm and cancel button to the modal
+      // a subtype of showModal.
+      function showDialog(title, text, secondaryText, imageUrl, extraUrl) {
+        showModal(title, text, secondaryText, imageUrl, extraUrl);
+        // We want to add a confirm and cancel button to the modal
 
-    var confirmButton = $(
-      "<button class='modal-confirm'>Show more details</button>");
+        var confirmButton = $(
+          "<button class='modal-confirm'>Show more details</button>");
 
-    $baseModal.append(confirmButton);
+        $modal.append(confirmButton);
 
-    // We want to focus the confirmButton so that the user can simply press Enter
-    confirmButton.focus();
-    // Return a promise that resolves when confirmed, else rejects
-    return new Promise((resolve, reject) => {
-      confirmButton.on('click', () => {
-        dialogPromiseReject = null;
-        console.log('extra url: ' + extraUrl);
-        window.open(extraUrl, 'www.google.com');
-        resolve();
+        // We want to focus the confirmButton so that the user can simply press Enter
+        confirmButton.focus();
+        // Return a promise that resolves when confirmed, else rejects
+        return new Promise((resolve, reject) => {
+          confirmButton.on('click', () => {
+            dialogPromiseReject = null;
+            console.log('extra url: ' + extraUrl);
+            window.open(extraUrl, 'www.google.com');
+            resolve();
+          });
+          // This can be used to reject from other functions
+          dialogPromiseReject = reject;
+        });
+      }
+      var dialogPromiseReject; // This can be set later, by showDialog
+
+      function hideModal() {
+        var $modalContainer = $('#modal-container'); << << << < HEAD
+        $baseModal.empty();
+        $modalContainer.remove($baseModal);
+        $modalContainer.empty();
+        $('#modal-container').removeClass('is-visible');
+        $('#modal-container').empty(); === === =
+        $('#modal-container').removeClass('is-visible');
+        $('#modal-container').empty();
+        $modal.empty();
+        $modalContainer.remove($modal); >>> >>> > parent of 9368207...trying to figure out why i am getting erros
+        console.log($('#modal-container').children().length);
+      }
+
+
+      $('.button--pokemon').on('click', (e) => {
+        e.preventDefault();
+        showDialog('Confirm action', 'Are you sure you want to do this?').then(
+          function() {
+            alert('confirmed');
+          }, () => {
+
+          });
       });
-      // This can be used to reject from other functions
-      dialogPromiseReject = reject;
-    });
-  }
-  var dialogPromiseReject; // This can be set later, by showDialog
 
-  function hideModal() {
-    var $modalContainer = $('#modal-container');
-    $baseModal.empty();
-    $modalContainer.remove($baseModal);
-    $modalContainer.empty();
-    $('#modal-container').removeClass('is-visible');
-    $('#modal-container').empty();
-    console.log($('#modal-container').children().length);
-  }
-
-
-  $('.button--pokemon').on('click', (e) => {
-    e.preventDefault();
-    showDialog('Confirm action', 'Are you sure you want to do this?').then(
-      function() {
-        alert('confirmed');
-      }, () => {
-
+      $(window).on('keydown', (e) => {
+        if (e.key === 'Escape' && $modalContainer.hasClass(
+            'is-visible')) {
+          hideModal();
+        }
       });
-  });
 
-  $(window).on('keydown', (e) => {
-    if (e.key === 'Escape' && $modalContainer.hasClass(
-        'is-visible')) {
-      hideModal();
+      $('#modal-container').on('click', (e) => {
+        // Since this is also triggered when clicking INSIDE the modal container,
+        // We only want to close if the user clicks directly on the overlay
+        var target = e.target;
+        if (target === $('#modal-container')) {
+          hideModal();
+        }
+      });
+
+      if (shouldShowModal) showModal(title, text, secondaryText, imageUrl,
+        extraUrl);
+      if (shouldShowDialog) showDialog(title, text, secondaryText, imageUrl,
+        extraUrl);
+
     }
-  });
-
-  $('#modal-container').on('click', (e) => {
-    // Since this is also triggered when clicking INSIDE the modal container,
-    // We only want to close if the user clicks directly on the overlay
-    var target = e.target;
-    if (target === $('#modal-container')) {
-      hideModal();
-    }
-  });
-
-  if (shouldShowModal) {
-    showModal();
-  }
-  if (shouldShowDialog) {
-    showDialog();
-  }
-}
