@@ -8,8 +8,8 @@ function modal(shouldShowModal,
   imageUrl, extraUrl) {
 
   var $modalContainer = $('#modal-container');
-  var $modal = $(
-    '<div class="modal created rubberBand animated">Content is here!</div>'
+  var $baseModal = $(
+    '<div class="modal created rubberBand animated"></div>'
   );
   // <div class="modal created rubberBand animated" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"></div></div></div></div>
 
@@ -18,12 +18,12 @@ function modal(shouldShowModal,
 
   function showModal(title, text, secondaryText, imageUrl, extraUrl) {
     // Clear all existing modal content
-    $('#modal-container').empty();
+    $modalContainer.empty();
     $('#modal-container').innerHTML = '';
 
     // Add the new modal content
     var closeButtonElement = $(
-      '<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>'
+      '<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">Close</button>'
     );
     closeButtonElement.on('click', hideModal);
 
@@ -39,13 +39,13 @@ function modal(shouldShowModal,
     var image = $("<img class='pokemon-image' src=" + imageUrl + "></img>");
     image.src = imageUrl;
 
-    $modal.append(closeButtonElement);
-    $modal.append(titleElement);
-    $modal.append(contentElement);
-    $modal.append(content2Element);
-    $modal.append(image)
-    if ($modal.parentElement !== $('#modal-container')) {
-      $('#modal-container').append(modal);
+    $baseModal.append(closeButtonElement);
+    $baseModal.append(titleElement);
+    $baseModal.append(contentElement);
+    $baseModal.append(content2Element);
+    $baseModal.append(image)
+    if ($baseModal.parentElement !== $('#modal-container')) {
+      $('#modal-container').append($baseModal);
     }
     $('#modal-container').addClass('is-visible');
   }
@@ -58,7 +58,7 @@ function modal(shouldShowModal,
     var confirmButton = $(
       "<button class='modal-confirm'>Show more details</button>");
 
-    $modal.append(confirmButton);
+    $baseModal.append(confirmButton);
 
     // We want to focus the confirmButton so that the user can simply press Enter
     confirmButton.focus();
@@ -80,7 +80,7 @@ function modal(shouldShowModal,
     var $modalContainer = $('#modal-container');
     $('#modal-container').removeClass('is-visible');
     $('#modal-container').empty();
-    $modal.empty();
+    $baseModal.empty();
     $modalContainer.remove($modal);
     console.log($('#modal-container').children().length);
   }
@@ -107,11 +107,4 @@ function modal(shouldShowModal,
   if (shouldShowDialog) showDialog(title, text, secondaryText, imageUrl,
     extraUrl);
 
-}
-});
-
-if (shouldShowModal) showModal(title, text, secondaryText, imageUrl, extraUrl);
-if (shouldShowDialog) showDialog(title, text, secondaryText, imageUrl,
-  extraUrl);
-
-}
+};
