@@ -56,6 +56,9 @@ function modal(shouldShowModal,
     $baseModal.append(content2Element);
     $baseModal.append(image)
     if ($baseModal.parentElement !== $('#modal-container')) {
+<<<<<<< HEAD
+>>>>>>> parent of 1330525... some changes
+=======
 >>>>>>> parent of 1330525... some changes
       $('#modal-container').append($baseModal);
     }
