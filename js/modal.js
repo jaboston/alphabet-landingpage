@@ -21,8 +21,6 @@ function modal(shouldShowModal,
     $('#modal-container').empty();
     $('#modal-container').innerHTML = '';
 
-    console.log("show modal is called: " + title + ", text:  " + text +
-      ", secondary text: " + secondaryText + ", imageUrl: " + imageUrl);
     // Add the new modal content
     var closeButtonElement = $(
       '<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>'
@@ -41,6 +39,7 @@ function modal(shouldShowModal,
     var image = $("<img class='pokemon-image' src=" + imageUrl + "></img>");
     image.src = imageUrl;
 
+<<<<<<< HEAD
     $('#modal-container').load('modal.html');
 
     $('.modal-content').append(closeButtonElement);
@@ -50,6 +49,14 @@ function modal(shouldShowModal,
     $('.modal-content').append(image)
 
     if (!($baseModal.parentElement == $('#modal-container'))) {
+=======
+    $baseModal.append(closeButtonElement);
+    $baseModal.append(titleElement);
+    $baseModal.append(contentElement);
+    $baseModal.append(content2Element);
+    $baseModal.append(image)
+    if ($baseModal.parentElement !== $('#modal-container')) {
+>>>>>>> parent of 1330525... some changes
       $('#modal-container').append($baseModal);
     }
     $('#modal-container').addClass('is-visible');
